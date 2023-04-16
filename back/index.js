@@ -15,8 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/posts", async (req, res) => {
-  const posts = await obtenerPosts();
-  res.json(posts);
+  try{
+    const posts = await obtenerPosts();
+    res.json(posts);
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 app.post("/posts", async (req, res) => {
@@ -26,6 +32,7 @@ app.post("/posts", async (req, res) => {
     res.send("Post agregado con éxito");
   } catch (error) {
     console.log(error);
+    res.status(500).send(error);
   }
 });
 
@@ -36,6 +43,7 @@ app.delete("/posts/:postId", async (req, res) => {
     res.send("Post eliminado con éxito");
   } catch (error) {
     console.log(error);
+    res.status(500).send(error);
   }
 });
 
@@ -46,5 +54,6 @@ app.put("/posts/like/:postId", async (req, res) => {
     res.json(postActualizado);
   } catch (error) {
     console.log(error);
+    res.status(500).send(error);
   }
 });
