@@ -1,6 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const { obtenerPosts, agregarPost, eliminarPost, actualizarPost } = require("./controllers/post");
+const {
+  obtenerPosts,
+  agregarPost,
+  eliminarPost,
+  actualizarPost,
+} = require("./controllers/post");
 
 const app = express();
 
@@ -14,22 +19,32 @@ app.get("/posts", async (req, res) => {
   res.json(posts);
 });
 
-app.post('/posts', async (req, res) => {
-  const { titulo, img, descripcion } = req.body;
-  await agregarPost(titulo, img, descripcion);
-  res.send('Post agregado con éxito');
+app.post("/posts", async (req, res) => {
+  try {
+    const { titulo, img, descripcion } = req.body;
+    await agregarPost(titulo, img, descripcion);
+    res.send("Post agregado con éxito");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-app.delete('/posts/:postId', async (req, res) => {
-  const { postId } = req.params;
-  await eliminarPost(postId);
-  res.send('Post eliminado con éxito');
+app.delete("/posts/:postId", async (req, res) => {
+  try {
+    const { postId } = req.params;
+    await eliminarPost(postId);
+    res.send("Post eliminado con éxito");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-app.put('/posts/:postId', async (req, res) => {
-  const { postId } = req.params;
-  const postActualizado = await actualizarPost(postId);
-  res.json(postActualizado);
+app.put("/posts/like/:postId", async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const postActualizado = await actualizarPost(postId);
+    res.json(postActualizado);
+  } catch (error) {
+    console.log(error);
+  }
 });
-
-
